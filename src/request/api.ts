@@ -1,17 +1,23 @@
 import request from './request'
 
 interface AdminLoginData {
-  "username":string,
-  "pwd":string
+  username:string,
+  pwd:string
 }
-interface AdminLoginRes {
+type PromiseRes<T> = Promise<ManageResult<T>>
+interface ManageResult<T> {
   code:number,
-  data: {
-    token:string
-  },
-  message:string
+  data: T,
+  // message:string
+}
+interface AdminLoginRes{
+  token:string
+}
+interface AdminInfoRes{
+  menus:[],
 }
 
-const adminLoginApi = (data:AdminLoginData):Promise<AdminLoginRes> => request.get('/login',{params:data})
 
-export default adminLoginApi
+export const adminLoginApi = (data:AdminLoginData):PromiseRes<AdminLoginRes> => request.get('/login',{params:data})
+
+export const getAdminInfoApi = ():PromiseRes<AdminInfoRes> => request.get('/info')
