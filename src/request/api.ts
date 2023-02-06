@@ -14,7 +14,7 @@ interface AdminLoginRes{
   token:string
 }
 interface AdminInfoRes{
-  menus:[],
+  menus:[]
 }
 
 
