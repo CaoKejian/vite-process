@@ -8,7 +8,9 @@
           <template #title>
             <span>{{ menus.title }}</span>
           </template>
-          <el-menu-item index="1-4-1" v-for="submenu in menus.children" :key="submenu.id">{{ submenu.title }}</el-menu-item>
+          <template v-for="submenu in menus.children" :key="submenu.id">
+            <el-menu-item index="1-4-1" v-if="submenu.hidden" >{{ submenu.title }}</el-menu-item>
+          </template>
         </el-sub-menu>
 
 
@@ -30,6 +32,7 @@ interface State {
 interface MenuObj {
   parentId:number
   id:number
+  hidden?:0 | 1
   title?:string
   children?:MenuObj[]
 }
