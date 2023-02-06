@@ -1,15 +1,16 @@
 import { defineStore } from 'pinia'
 
 interface State {
-  menus:{
-    parentId:number
-    id:number
-  }[]
+  menus:MenuObj[]
 }
-type menus = {
+interface MenuObj {
   parentId:number
   id:number
-}[]
+  children?:MenuObj[]
+}
+type NewMenus = {
+  [key:number]:MenuObj
+}
 export const useMainStore =  defineStore('main',{
 
     state:()=>{
@@ -19,17 +20,18 @@ export const useMainStore =  defineStore('main',{
         }
     },
     getters:{
-
       getNewMenus(state){
-        const newMenus = {}
+        const newMenus:NewMenus = {}
         const menus = state.menus
         for(let i = 0; i < menus.length;i++){
           if(menus[i].parentId === 0){
             // 一级菜单
-            newMenus[menus[i].id] = menus[i]
+            newMenus[menus[i].id] ={...menus[i]} 
           }else{
             // 二级菜单
             let parentId =  menus[i].parentId
+            newMenus[parentId].children = newMenus[parentId].children || []
+            newMenus[parentId].children?.push( menus[i])
           }
         }
         return newMenus
