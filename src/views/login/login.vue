@@ -40,7 +40,8 @@ import Cookie from 'js-cookie'
 import { useRouter } from 'vue-router'
 import './login.css'
 import 'animate.css';
-import { useMainStore } from "../../stores";
+import { useMainStore } from "../../stores/text";
+
 const mainStore = useMainStore();
 
 const state = reactive({
@@ -82,6 +83,7 @@ const loginFn = () => {
           if (res.code === 200) {
             isshow.value = 2
             mainStore.menus = res.data.menus
+            // localStorage.setItem('menus', JSON.stringify(menus))
             //跳转
             setTimeout(() => {
               router.push('../home')

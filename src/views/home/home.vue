@@ -3,49 +3,60 @@
     <div class="header">头部</div>
     <div class="menu">
       <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" default-active="2"
-        text-color="#fff" @open="handleOpen" @close="handleClose">
-        <el-sub-menu index="1" v-for="menus in  newMenus" :key="menus.id">
+        text-color="#fff" @open="handleOpen" @close="handleClose" :unique-opened="true" :router="true">
+        <el-sub-menu :index="menus.id + ''" v-for="menus in  newMenus" :key="menus.id">
           <template #title>
             <span>{{ menus.title }}</span>
           </template>
           <template v-for="submenu in menus.children" :key="submenu.id">
-            <el-menu-item index="1-4-1" v-if="submenu.hidden" >{{ submenu.title }}</el-menu-item>
+            <el-menu-item index="1" v-if="!submenu.hidden">{{ submenu.title }}</el-menu-item>
           </template>
         </el-sub-menu>
-
-
       </el-menu>
     </div>
-    <div class="content">右侧内容</div>
   </div>
+  <div class="content">右侧内容</div>
+    <div>
+      {{ mainStore.age }}</div>
+    <button @click="add">点击</button>
 </template>
 <script setup lang='ts'>
-import { ref ,onMounted} from 'vue'
+import { onMounted } from 'vue'
 import 'animate.css';
-import { storeToRefs } from 'pinia'
-import { useMainStore } from "../../stores";
+import { useMainStore } from "../../stores/text";
 const mainStore = useMainStore();
 
 interface State {
-  menus:MenuObj[]
+  menus: MenuObj[]
 }
 interface MenuObj {
-  parentId:number
-  id:number
-  hidden?:0 | 1
-  title?:string
-  children?:MenuObj[]
+  parentId: number
+  id: number
+  hidden?: 0 | 1
+  title?: string
+  children?: MenuObj[]
 }
 type NewMenus = {
-  [key:number]:MenuObj
+  [key: number]: MenuObj
 }
-const newMenus:NewMenus = mainStore.getNewMenus
+type MenusArr = {
+
+}
+const add = () => {
+  mainStore.age++
+}
+const newMenus: NewMenus = mainStore.getNewMenus
+
 const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
 }
 const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
 }
+onMounted(() => {
+
+  const result = localStorage.getItem('newMenus')
+  // Menus = JSON.parse(result||'0');
+
+})
 </script>
 <style lang='less' scoped>
 .container {
