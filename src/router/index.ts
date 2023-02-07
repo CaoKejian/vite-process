@@ -88,13 +88,18 @@ router.beforeEach((to,from,next)=>{
     })
   }else if(token && mainStore.menus.length !==1 && from.path === '/login' && to.path === '/index'){
     setNewArr()
-    next(to)
+    next() 
+  }else if(!token && to.path !== '/login'){
+    
+    next('/login')
+  }else if(token && to.path =='/login'){
+    console.log(123);
+    next(from)
   }else {
-    next(to)
+    next()
   } 
   Vnode.component?.exposed?.startLoading()
   settitle(to)
-  next()
 })
 
 router.afterEach((to,from)=>{
