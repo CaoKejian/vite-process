@@ -1,5 +1,6 @@
 
 import { defineStore } from "pinia";
+import {getAdminInfoApi} from '../request/api'
 interface State {
   menus:MenuObj[]
 }
@@ -7,6 +8,7 @@ interface MenuObj {
   parentId:number
   id:number
   children?:MenuObj[]
+  name:string
 }
 type NewMenus = {
   [key:number]:MenuObj
@@ -17,13 +19,13 @@ export const useMainStore =  defineStore('main',{
             menus:[
               <MenuObj>{}
             ],
-            age:18
         }
     },
     getters:{
       getNewMenus(state){
         const newMenus:NewMenus = {}
         const menus = state.menus
+        
         for(let i = 0; i < menus.length;i++){
           if(menus[i].parentId === 0){
             // 一级菜单
@@ -36,11 +38,11 @@ export const useMainStore =  defineStore('main',{
             newMenus[parentId].children?.push(menus[i])
           }
         }
-        // localStorage.setItem('newMenus',JSON.stringify(newMenus))
         return newMenus
       }
     },
-    actions:{},
+    actions:{
+    },
     persist:{
         enabled:true
     }

@@ -1,5 +1,6 @@
 import  { createPinia,type PiniaPluginContext } from 'pinia'
 import { toRaw } from 'vue'
+const store1 =createPinia()
 
 type Options={
   key?:string
@@ -25,7 +26,8 @@ export const piniaPlugin = (options:Options)=>{
   }
   }
 }
-const store =createPinia()
-store.use(piniaPlugin({
+store1.use(piniaPlugin({
   key:"pinia"
 }))
+
+export default store1

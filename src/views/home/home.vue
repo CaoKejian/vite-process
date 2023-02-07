@@ -9,16 +9,18 @@
             <span>{{ menus.title }}</span>
           </template>
           <template v-for="submenu in menus.children" :key="submenu.id">
-            <el-menu-item index="1" v-if="!submenu.hidden">{{ submenu.title }}</el-menu-item>
+            <el-menu-item :index="'/' + menus.name + '/' + submenu.name" v-if="!submenu.hidden">{{
+              submenu.title
+            }}</el-menu-item>
           </template>
         </el-sub-menu>
       </el-menu>
     </div>
+    <div class="content">
+      <router-view></router-view>
+    </div>
   </div>
-  <div class="content">右侧内容</div>
-    <div>
-      {{ mainStore.age }}</div>
-    <button @click="add">点击</button>
+
 </template>
 <script setup lang='ts'>
 import { onMounted } from 'vue'
@@ -35,6 +37,7 @@ interface MenuObj {
   hidden?: 0 | 1
   title?: string
   children?: MenuObj[]
+  name?: string
 }
 type NewMenus = {
   [key: number]: MenuObj
@@ -42,9 +45,7 @@ type NewMenus = {
 type MenusArr = {
 
 }
-const add = () => {
-  mainStore.age++
-}
+
 const newMenus: NewMenus = mainStore.getNewMenus
 
 const handleOpen = (key: string, keyPath: string[]) => {

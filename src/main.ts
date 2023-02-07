@@ -23,8 +23,6 @@ const piniaPlugin = (options:Options) => {
   return (context:PiniaPluginContext) =>{
     const {store} = context
     const data =getStorage(`${options?.key ?? __piniaKey__}-${store.$id}`)
-    console.log(data);
-    
   store.$subscribe(()=>{
     setStorage(`${options?.key ?? __piniaKey__}-${store.$id}`,toRaw(store.$state))
   })
