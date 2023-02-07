@@ -86,7 +86,7 @@ const loginFn = () => {
             // localStorage.setItem('menus', JSON.stringify(menus))
             //跳转
             setTimeout(() => {
-              router.push('../home')
+              router.push('../index')
             }, 500)
           }
         })

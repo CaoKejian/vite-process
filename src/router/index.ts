@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory,type RouteLocationNormalized } from 'vue-router'
-import { createApp,createVNode,render } from 'vue'
+import { createApp,createVNode,render,onMounted } from 'vue'
 import  loadingBar  from '../components/bar/bar.vue'
 import pinia from '../stores/store'
 import { useMainStore } from "../stores/text";
@@ -17,10 +17,6 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path:'',
-      redirect:'/login'
-    },
-    {
       path: '/login',
       name: 'login',
       component: () => import ('../views/login/login.vue'),
@@ -30,31 +26,18 @@ const router = createRouter({
       }
     },
     {
-      path: '/home',
-      name: 'home',
-      component: () => import ('../views/home/home.vue'),
-      meta:{
-        title:"首页",
-        transition:"animate__fadeIn"
-      }
-    },
-    {
-      path: '/pms',
-      name: 'pms',
-      component: () => import ('../views/home/home.vue'),
-      meta:{
-        title:"首页",
-        transition:"animate__fadeIn"
-      },
+      path:'/',
+      name:'home',
+      component:()=> import ('../views/home/home.vue'),
+      redirect:'/index',
       children:[
         {
-          path: 'product',
-          name: 'product',
-          component: () => import ('../views/pms/product.vue'),
+          path:'index',
+          name:'index',
+          component:()=> import ('../views/index/index.vue'),
         }
       ]
     }
-
   ]
 })
 interface MenuObj {
@@ -74,29 +57,17 @@ const settitle = (to:RouteLocationNormalized) =>{
   }
 }
 const setNewArr = () =>{
-    const newMenus:NewMenus = {}
-  const menus = JSON.parse(localStorage.getItem('pinia-main')as string).menus
-  for(let i = 0; i < menus.length;i++){
-    if(menus[i].parentId === 0){
-      // 一级菜单
-      newMenus[menus[i].id] ={...menus[i],children:newMenus[menus[i].id]?.children || []} 
-    }else{
-      // 二级菜单
-      let parentId =  menus[i].parentId
-      newMenus[parentId] = newMenus[parentId] || {}
-      newMenus[parentId].children = newMenus[parentId].children || []
-      newMenus[parentId].children?.push(menus[i])
-    }
-  }
+    const newMenus:NewMenus = mainStore.getNewLocalMenus
   for (let key in newMenus){
     const newRoute ={
         path:'/'+newMenus[key].name,
         name:newMenus[key].name,
         component:()=> import ('../views/home/home.vue'),
+        redirect:'/' + newMenus[key].name + '/' + newMenus[key].children[0].name,
         children:[] as any[]
       }
       for(let i =0;i<newMenus[key].children.length;i++){
-        newRoute.children?.push({
+        newRoute.children.push({
           path:'/'+newMenus[key].children[i].name,
           name:newMenus[key].children[i].name,
           component:()=> import (`../views/${newMenus[key].name}/${newMenus[key].children[i].name}.vue`),
@@ -110,6 +81,18 @@ render(Vnode,document.body)
 
 router.beforeEach((to,from,next)=>{
   setNewArr()
+  const local = localStorage.getItem('pinia-main')
+  if(local!==null){
+    let menus = JSON.parse(local)
+    const token = Cookies.get('token')
+    if(token &&menus.length ==0 ){
+      console.log(1);
+    }else if(token && menus.length !==1&&from.path === '/login' && to.path === '/index'){
+    console.log(123);
+
+   }
+  }
+  
   Vnode.component?.exposed?.startLoading()
   settitle(to)
   next()

@@ -54,8 +54,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 }
 onMounted(() => {
 
-  const result = localStorage.getItem('newMenus')
-  // Menus = JSON.parse(result||'0');
+ 
 
 })
 </script>
