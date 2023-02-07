@@ -42,8 +42,12 @@ export const useMainStore =  defineStore('main',{
       },
       getNewLocalMenus(state){
         const newMenus:any = {}
-        const menus = JSON.parse(localStorage.getItem('pinia-main') as string).menus
+        const menus = JSON.parse(localStorage.getItem('pinia-main') as string).menus 
         
+        if(menus.length==null){
+          console.log(123);
+          
+        }
         for(let i = 0; i < menus.length;i++){
           if(menus[i].parentId === 0){
             // 一级菜单
@@ -60,6 +64,18 @@ export const useMainStore =  defineStore('main',{
       }
     },
     actions:{
+      getAdminInfo(){
+        return new Promise((resolve,reject)=>{
+          getAdminInfoApi().then(res=>{
+            if(res.code === 200){
+              this.menus = res.data.menus
+              resolve(res.data)
+            }else{
+              reject(res)
+            }
+          })
+        })
+      }
     },
     persist:{
         enabled:true

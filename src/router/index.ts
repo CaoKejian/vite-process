@@ -24,19 +24,6 @@ const router = createRouter({
         title:"登录页面",
         transition:"animate__fadeIn"
       }
-    },
-    {
-      path:'/',
-      name:'home',
-      component:()=> import ('../views/home/home.vue'),
-      redirect:'/index',
-      children:[
-        {
-          path:'index',
-          name:'index',
-          component:()=> import ('../views/index/index.vue'),
-        }
-      ]
     }
   ]
 })
@@ -72,27 +59,35 @@ const setNewArr = () =>{
           name:newMenus[key].children[i].name,
           component:()=> import (`../views/${newMenus[key].name}/${newMenus[key].children[i].name}.vue`),
         })
+        router.addRoute(newRoute)
     }
-    router.addRoute(newRoute)
+    router.addRoute(
+      {
+        path:'/',
+        name:'home',
+        component:()=> import ('../views/home/home.vue'),
+        redirect:'/index',
+        children:[
+          {
+            path:'index',
+            name:'index',
+            component:()=> import ('../views/index/index.vue'),
+          }
+        ]
+      }) 
   }
 }
 const Vnode = createVNode(loadingBar)
 render(Vnode,document.body)
 
 router.beforeEach((to,from,next)=>{
-  setNewArr()
   const local = localStorage.getItem('pinia-main')
-  if(local!==null){
-    let menus = JSON.parse(local)
-    const token = Cookies.get('token')
-    if(token &&menus.length ==0 ){
-      console.log(1);
-    }else if(token && menus.length !==1&&from.path === '/login' && to.path === '/index'){
-    console.log(123);
-
-   }
-  }
-  
+  const a = Array.from(mainStore.menus)
+  const token = Cookies.get('token')
+  if(token){
+    mainStore.getAdminInfo().then
+    setNewArr()
+  }  
   Vnode.component?.exposed?.startLoading()
   settitle(to)
   next()

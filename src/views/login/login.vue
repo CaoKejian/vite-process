@@ -79,16 +79,21 @@ const loginFn = () => {
     adminLoginApi(ruleForm.value).then(res => {
       if (res.code == 200) {
         Cookie.set('token', res.data.token, { expires: 7 })
-        getAdminInfoApi().then(res => {
-          if (res.code === 200) {
-            isshow.value = 2
-            mainStore.menus = res.data.menus
-            // localStorage.setItem('menus', JSON.stringify(menus))
-            //跳转
-            setTimeout(() => {
+        // getAdminInfoApi().then(res => {
+        //   if (res.code === 200) {
+        //     isshow.value = 2
+        //     mainStore.menus = res.data.menus
+        //     // localStorage.setItem('menus', JSON.stringify(menus))
+        //     //跳转
+        //     setTimeout(() => {
+        //       router.push('../index')
+        //     }, 500)
+        //   }
+        // })
+        mainStore.getAdminInfo().then(res=>{
+          setTimeout(() => {
               router.push('../index')
             }, 500)
-          }
         })
       }
     })
