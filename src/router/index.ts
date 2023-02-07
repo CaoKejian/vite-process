@@ -74,8 +74,7 @@ const settitle = (to:RouteLocationNormalized) =>{
   }
 }
 const setNewArr = () =>{
-  const newRoutes = []
-  const newMenus:NewMenus = {}
+    const newMenus:NewMenus = {}
   const menus = JSON.parse(localStorage.getItem('pinia-main')as string).menus
   for(let i = 0; i < menus.length;i++){
     if(menus[i].parentId === 0){
@@ -90,22 +89,21 @@ const setNewArr = () =>{
     }
   }
   for (let key in newMenus){
-    newRoutes.push({
+    const newRoute ={
         path:'/'+newMenus[key].name,
         name:newMenus[key].name,
         component:()=> import ('../views/home/home.vue'),
         children:[] as any[]
-      })
+      }
       for(let i =0;i<newMenus[key].children.length;i++){
-        newRoutes[newRoutes.length - 1].children?.push({
+        newRoute.children?.push({
           path:'/'+newMenus[key].children[i].name,
           name:newMenus[key].children[i].name,
           component:()=> import (`../views/${newMenus[key].name}/${newMenus[key].children[i].name}.vue`),
         })
-      }
+    }
+    router.addRoute(newRoute)
   }
-  console.log(newRoutes);
-  return newRoutes
 }
 const Vnode = createVNode(loadingBar)
 render(Vnode,document.body)
