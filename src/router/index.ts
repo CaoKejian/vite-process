@@ -40,6 +40,7 @@ const router = createRouter({
     }
   ]
 })
+
 interface MenuObj {
   parentId:number
   id:number
@@ -68,12 +69,12 @@ const setNewArr = () =>{
       }
       for(let i =0;i<newMenus[key].children.length;i++){
         newRoute.children.push({
-          path:'/'+newMenus[key].children[i].name,
+          path:newMenus[key].children[i].name,
           name:newMenus[key].children[i].name,
           component:()=> import (`../views/${newMenus[key].name}/${newMenus[key].children[i].name}.vue`),
         })
-        router.addRoute(newRoute)
     }
+  router.addRoute(newRoute)
   }
 }
 const Vnode = createVNode(loadingBar)
