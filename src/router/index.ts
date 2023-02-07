@@ -24,6 +24,19 @@ const router = createRouter({
         title:"登录页面",
         transition:"animate__fadeIn"
       }
+    },
+    {
+      path:'/',
+      name:'home',
+      component:()=> import ('../views/home/home.vue'),
+      redirect:'/index',
+      children:[
+        {
+          path:'index',
+          name:'index',
+          component:()=> import ('../views/index/index.vue'),
+        }
+      ]
     }
   ]
 })
@@ -61,33 +74,24 @@ const setNewArr = () =>{
         })
         router.addRoute(newRoute)
     }
-    router.addRoute(
-      {
-        path:'/',
-        name:'home',
-        component:()=> import ('../views/home/home.vue'),
-        redirect:'/index',
-        children:[
-          {
-            path:'index',
-            name:'index',
-            component:()=> import ('../views/index/index.vue'),
-          }
-        ]
-      }) 
   }
 }
 const Vnode = createVNode(loadingBar)
 render(Vnode,document.body)
 
 router.beforeEach((to,from,next)=>{
-  const local = localStorage.getItem('pinia-main')
-  const a = Array.from(mainStore.menus)
   const token = Cookies.get('token')
-  if(token){
-    mainStore.getAdminInfo().then
+  if(token && mainStore.menus.length === 1){
+    mainStore.getAdminInfo().then(()=>{
+      setNewArr()
+      next(to)
+    })
+  }else if(token && mainStore.menus.length !==1 && from.path === '/login' && to.path === '/index'){
     setNewArr()
-  }  
+    next(to)
+  }else {
+    next(to)
+  } 
   Vnode.component?.exposed?.startLoading()
   settitle(to)
   next()
