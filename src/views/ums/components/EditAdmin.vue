@@ -24,16 +24,16 @@
 </template>
 <script setup lang='ts'>
 import { ref, reactive, toRefs, watch } from 'vue'
+
 type Props = {
   visible: boolean,
-  form: {
-    username: string
-  }
+  form: {username?:string}
 }
+
 const propData = defineProps<Props>()
 const state = reactive<{
   formLabelWidth:string;
-  newform:{username?:string}}>
+  newform:AdminObjItf}>
   ({
   formLabelWidth: '120px',
   newform: {}

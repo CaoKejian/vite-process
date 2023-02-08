@@ -1,0 +1,3 @@
+interface AdminObjItf {
+  username?:string
+}

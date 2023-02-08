@@ -33,7 +33,7 @@ import EditAdmin from './components/EditAdmin.vue';
 const state = reactive<{
   tableData: {}[]
   visible: boolean
-  rowData: { }
+  rowData: AdminObjItf
 }>({
   tableData: [],
   visible: false,
@@ -67,7 +67,7 @@ const formateDate = (time: string | undefined) => {
   }
 }
 // 编辑
-const editAdmin = (row: {}) => {
+const editAdmin = (row: AdminObjItf) => {
   visible.value = true
   rowData.value = { ...row }
 }
