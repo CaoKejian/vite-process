@@ -1,12 +1,12 @@
 <template>
 
   <el-dialog v-model="propData.visible" title="Shipping address" :before-close="close">
-    <el-form :model="form" :label-width="formLabelWidth">
+    <el-form :model="newform" :label-width="formLabelWidth">
       <el-form-item label="Promotion name">
-        <el-input v-model="form.name" autocomplete="off" />
+        <el-input v-model="newform.username" autocomplete="off" />
       </el-form-item>
       <el-form-item label="Zones">
-        <el-select v-model="form.name" placeholder="Please select a zone">
+        <el-select v-model="newform.username" placeholder="Please select a zone">
           <el-option label="Zone No.1" value="shanghai" />
           <el-option label="Zone No.2" value="beijing" />
         </el-select>
@@ -25,16 +25,19 @@
 <script setup lang='ts'>
 import { ref, reactive, toRefs, watch } from 'vue'
 type Props = {
-  visible: boolean
+  visible: boolean,
+  form: {
+    username: string
+  }
 }
 const propData = defineProps<Props>()
-const state = reactive({
-  form: {
-    name: ''
-  },
-  formLabelWidth: '120px'
+const state = reactive<{
+  formLabelWidth:string;
+  newform:{username?:string}}>
+  ({
+  formLabelWidth: '120px',
+  newform: {}
 })
-
 const emit = defineEmits<{
   (event: "close"): void
 }>()
@@ -45,10 +48,15 @@ const close = () => {
 // 确定
 const modifyAdmin = () => {
   emit("close")
-
 }
 
-const { form, formLabelWidth } = toRefs(state)
+const { formLabelWidth, newform } = toRefs(state)
+// 拷贝from
+watch(() => propData.form, () => {
+  newform.value = { ...propData.form }
+
+})
+
 </script>
 <style lang='less' scoped>
 

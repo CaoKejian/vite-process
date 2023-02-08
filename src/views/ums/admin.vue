@@ -16,14 +16,14 @@
       </template>
     </el-table-column>
     <el-table-column label="操作">
-      <template #default>
+      <template #default="{ row }">
         <el-button link type="primary">分配角色</el-button>
-        <el-button link type="primary" @click="editAdmin">编辑</el-button>
+        <el-button link type="primary" @click="editAdmin(row)">编辑</el-button>
       </template>
     </el-table-column>
   </el-table>
-  
-  <EditAdmin :visible="visible" @close="closeDailog" />
+
+  <EditAdmin :visible="visible" @close="closeDailog" :form="rowData" />
 </template>
 <script setup lang='ts'>
 import { ref, reactive, toRefs } from 'vue'
@@ -31,11 +31,13 @@ import { getAdminLists } from '../../request/api'
 import EditAdmin from './components/EditAdmin.vue';
 
 const state = reactive<{
-  tableData: {}[],
+  tableData: {}[]
   visible: boolean
+  rowData: { }
 }>({
   tableData: [],
-  visible: false
+  visible: false,
+  rowData: {}
 })
 getAdminLists({
   keyword: '',
@@ -46,7 +48,7 @@ getAdminLists({
     tableData.value = res.data.list
   }
 })
-const { tableData, visible } = toRefs(state)
+const { tableData, visible, rowData } = toRefs(state)
 
 // 格式化时间
 const formateDate = (time: string | undefined) => {
@@ -65,8 +67,9 @@ const formateDate = (time: string | undefined) => {
   }
 }
 // 编辑
-const editAdmin = () => {
+const editAdmin = (row: {}) => {
   visible.value = true
+  rowData.value = { ...row }
 }
 // 隐藏弹框
 const closeDailog = () => {
