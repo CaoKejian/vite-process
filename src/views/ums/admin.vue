@@ -26,10 +26,11 @@
   <EditAdmin :visible="visible" @close="closeDailog" :form="rowData" />
 </template>
 <script setup lang='ts'>
-import { ref, reactive, toRefs } from 'vue'
+import { ref, reactive, toRefs, onMounted } from 'vue'
 import { getAdminLists } from '../../request/api'
 import EditAdmin from './components/EditAdmin.vue';
-
+import { useinfoStore } from '../../stores/change'
+const infoStore = useinfoStore();
 const state = reactive<{
   tableData: {}[]
   visible: boolean
@@ -45,6 +46,8 @@ getAdminLists({
   pageNum: 1
 }).then(res => {
   if (res.code === 200) {
+    //持久化vuex存储
+    infoStore.info = res.data.list
     tableData.value = res.data.list
   }
 })
@@ -78,6 +81,24 @@ const closeDailog = () => {
 const addZear = (num: number) => {
   return num > 9 ? num : '0' + num
 }
+interface infoObj {
+  createTime:string
+  email:string
+  icon:string|null
+  id:number
+  loginTime:string|null
+  nickName:string
+  note:string
+  password:string
+  status:number
+  username:string
+}
+type Newinfo =  {
+  [key:number]:infoObj 
+}
+onMounted(() => {
+  const localInfo:Newinfo = infoStore.getNewInfoLocal;
+})
 </script>
 <style lang='less' scoped>
 
