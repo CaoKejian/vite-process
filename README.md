@@ -1,3 +1,9 @@
-menus:[{"id":3,"parentId":99,"createTime":"2020-02-02T06:52:44.000+00:00","title":"添加商品","level":1,"sort":0,"name":"addProduct","icon":"product-add","hidden":0},{"id":4,"parentId":99,"createTime":"2021-07-15T14:27:14.000+00:00","title":"商品分类","level":1,"sort":0,"name":"productCate","icon":"product-cate","hidden":0},{"id":5,"parentId":99,"createTime":"2021-07-15T14:27:14.000+00:00","title":"品牌管理","level":1,"sort":0,"name":"brand","icon":"product-brand","hidden":0},{"id":6,"parentId":99,"createTime":"2020-02-02T06:56:29.000+00:00","title":"属性管理","level":1,"sort":0,"name":"productAttr","icon":"product-attr","hidden":0},{"id":13,"parentId":118,"createTime":"2020-02-04T08:19:22.000+00:00","title":"秒杀活动列表","level":1,"sort":0,"name":"flash","icon":"sms-flash","hidden":0},{"id":14,"parentId":118,"createTime":"2020-02-04T08:20:16.000+00:00","title":"优惠券列表","level":1,"sort":0,"name":"coupon","icon":"sms-coupon","hidden":0},{"id":16,"parentId":118,"createTime":"2020-02-07T08:22:38.000+00:00","title":"品牌推荐","level":1,"sort":0,"name":"homeBrand","icon":"product-brand","hidden":0},{"id":17,"parentId":118,"createTime":"2020-02-07T08:23:14.000+00:00","title":"新品推荐","level":1,"sort":0,"name":"homeNew","icon":"sms-new","hidden":0},{"id":18,"parentId":118,"createTime":"2020-02-07T08:26:38.000+00:00","title":"人气推荐","level":1,"sort":0,"name":"homeHot","icon":"sms-hot","hidden":0},{"id":19,"parentId":118,"createTime":"2020-02-07T08:28:16.000+00:00","title":"专题推荐","level":1,"sort":0,"name":"homeSubject","icon":"sms-subject","hidden":0},{"id":20,"parentId":118,"createTime":"2020-02-07T08:28:42.000+00:00","title":"广告列表","level":1,"sort":0,"name":"homeAdvertise","icon":"sms-ad","hidden":0},{"id":22,"parentId":97,"createTime":"2021-08-21T01:36:21.000+00:00","title":"用户列表","level":1,"sort":0,"name":"admin","icon":"ums-admin","hidden":0},{"id":25,"parentId":97,"createTime":"2021-07-15T14:27:14.000+00:00","title":"资源列表","level":1,"sort":0,"name":"resource","icon":"ums-resource","hidden":0},{"id":29,"parentId":97,"createTime":"2021-08-21T01:36:21.000+00:00","title":"分配菜单","level":1,"sort":0,"name":"allocMenu","icon":"allocMenu","hidden":1},
-{"id":30,"parentId":97,"createTime":"2021-07-15T14:27:14.000+00:00","title":"分配资源","level":1,"sort":0,"name":"allocResource","icon":"allocResource","hidden":1}
-]
+#
+vite+vue3+pinia+Ts+Echarts+node.js+Express 后台管理项目
+
+##
+自己的预览地址
+## 
+别人的预览地址
+kumanxuan1.f3322.net:8360/static/management/#/index
+
