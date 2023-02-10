@@ -47,8 +47,17 @@ getAdminLists({
 }).then(res => {
   if (res.code === 200) {
     //持久化vuex存储
-    infoStore.info = res.data.list
-    tableData.value = res.data.list
+
+    const havelocal = localStorage.getItem('pinia-info')
+    if (havelocal !== null) {
+      const result = JSON.parse(havelocal)
+      tableData.value = result.info
+      infoStore.info = result.info
+      return
+    } else {
+      infoStore.info = res.data.list
+    }
+
   }
 })
 const { tableData, visible, rowData } = toRefs(state)
@@ -81,23 +90,9 @@ const closeDailog = () => {
 const addZear = (num: number) => {
   return num > 9 ? num : '0' + num
 }
-interface infoObj {
-  createTime:string
-  email:string
-  icon:string|null
-  id:number
-  loginTime:string|null
-  nickName:string
-  note:string
-  password:string
-  status:number
-  username:string
-}
-type Newinfo =  {
-  [key:number]:infoObj 
-}
+
 onMounted(() => {
-  const localInfo:Newinfo = infoStore.getNewInfoLocal;
+
 })
 </script>
 <style lang='less' scoped>

@@ -25,9 +25,9 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="close">Cancel</el-button>
+        <el-button @click="close">取消</el-button>
         <el-button type="primary" @click="modifyAdmin">
-          Confirm
+          完成
         </el-button>
       </span>
     </template>
@@ -59,12 +59,30 @@ const close = () => {
 }
 // 确定
 const modifyAdmin = () => {
+  const info = localStorage.getItem('pinia-info') as string
+  const infoObj = JSON.parse(info)
+  const infoarr = JSON.parse(info).info
+  console.log(infoarr);
+
+  // 修改后的对象 c
+  const c = JSON.parse(JSON.stringify(newform.value));
+  // 找到这一项索引
+  let index = infoarr.findIndex((item: infoObj) => {
+    return item.id == c.id
+  })
+  infoarr.splice(index, 1, c)
+
+  console.log(infoarr);
+  infoObj.info = infoarr
+  localStorage.setItem("pinia-info", JSON.stringify(infoObj))
+
   emit("close")
 }
 
 const { formLabelWidth, newform } = toRefs(state)
 // 拷贝from
 watch(() => propData.form, () => {
+
   newform.value = { ...propData.form }
 
 })
