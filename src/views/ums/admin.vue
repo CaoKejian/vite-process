@@ -40,6 +40,16 @@ const state = reactive<{
   visible: false,
   rowData: {}
 })
+
+const fetchData = () => {
+  const havelocal = localStorage.getItem('pinia-info')
+    if (havelocal !== null) {
+      const result = JSON.parse(havelocal)
+      tableData.value = result.info
+      infoStore.info = result.info
+      return
+    } 
+}
 getAdminLists({
   keyword: '',
   pageSize: 10,
@@ -47,17 +57,11 @@ getAdminLists({
 }).then(res => {
   if (res.code === 200) {
     //持久化vuex存储
-
+    fetchData()
     const havelocal = localStorage.getItem('pinia-info')
-    if (havelocal !== null) {
-      const result = JSON.parse(havelocal)
-      tableData.value = result.info
-      infoStore.info = result.info
-      return
-    } else {
+    if(havelocal == null){
       infoStore.info = res.data.list
     }
-
   }
 })
 const { tableData, visible, rowData } = toRefs(state)
@@ -84,8 +88,12 @@ const editAdmin = (row: AdminObjItf) => {
   rowData.value = { ...row }
 }
 // 隐藏弹框
-const closeDailog = () => {
+const closeDailog = (r?:'reload') => {
   visible.value = false
+  if(r === 'reload'){
+    // 更新表格数据
+    fetchData()
+  }
 }
 const addZear = (num: number) => {
   return num > 9 ? num : '0' + num

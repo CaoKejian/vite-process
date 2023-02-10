@@ -51,19 +51,17 @@ const state = reactive<{
     newform: {}
   })
 const emit = defineEmits<{
-  (event: "close"): void
+  (event: "close",r?:"reload"): void
 }>()
 
-const close = () => {
-  emit("close")
+const close = (r?:'reload') => {
+  emit("close",r)
 }
 // 确定
 const modifyAdmin = () => {
   const info = localStorage.getItem('pinia-info') as string
   const infoObj = JSON.parse(info)
   const infoarr = JSON.parse(info).info
-  console.log(infoarr);
-
   // 修改后的对象 c
   const c = JSON.parse(JSON.stringify(newform.value));
   // 找到这一项索引
@@ -71,12 +69,9 @@ const modifyAdmin = () => {
     return item.id == c.id
   })
   infoarr.splice(index, 1, c)
-
-  console.log(infoarr);
   infoObj.info = infoarr
   localStorage.setItem("pinia-info", JSON.stringify(infoObj))
-
-  emit("close")
+ close('reload')
 }
 
 const { formLabelWidth, newform } = toRefs(state)
